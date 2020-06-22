@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>run-run</title>
+    <style type="text/css">
+    body {
+      text-align: center;
+      font-family: sans-serif;
+    }
+    button {
+      margin: 2em;
+      padding: 1em;
+    }
+    
+    </style>
+    <script>
+      // x = 170m, y = 140m
+      const colStreets = ['Waverly', 'Cowper', 'Webster', 'Middlefield'];
+      const rowStreets = ['Forest', 'Homer', 'Channing', 'Addison'];
+      const points = [
+        ['0', '1', '2', '3'],
+        ['7', '6', '5', '4'],
+        ['8', '9', 'a', 'b'],
+        ['f', 'e', 'd', 'c'],
+      ];
+
+      const segmentsPerRun = 30;
+      let waypoints = 0;
+      let atPoint = {
+        row: 0,
+        col: 0,
+
+        segments: 0,
+        rowDown: 0,
+        colDown: 0,
+      };
+
+      function display() {
+        const app = document.getElementById("run-run-app");
+        let html = '';
+        html += '<h1>' + points[atPoint.row][atPoint.col] + '</h1>'
+        html += '<h2>' + rowStreets[atPoint.row] + ' &amp; ' + colStreets[atPoint.col] + '</h2>'
+        html += '<h3>' + atPoint.rowDown + " right, " + atPoint.colDown + " up</h3>"
+        html += '<h3>' + atPoint.segments + " / " + segmentsPerRun + " blocks</h3>";
+        html += '<h3>' + waypoints + " waypoints</h3>";
+        html += '<button onClick="selectNextPoint()">Next Point</button>'
+        app.innerHTML = html;
+      }
+
+      function selectNextPoint() {
+        let nextPoint = {...atPoint};
+        while (nextPoint.row === atPoint.row && nextPoint.col === atPoint.col) {
+          nextPoint.row = Math.floor(Math.random() * colStreets
+  .length);
+          nextPoint.col = Math.floor(Math.random() * rowStreets.length);
+          console.log(nextPoint);
+        }
+
+        nextPoint.rowDown = nextPoint.row - atPoint.row;
+        nextPoint.colDown = nextPoint.col - atPoint.col;
+        nextPoint.segments += Math.abs(nextPoint.rowDown) + Math.abs(nextPoint.colDown);
+
+        atPoint = nextPoint;
+        waypoints += 1;
+        display();
+      }
+
+      function start() {
+        display();
+      }
+
+    </script>
+  </head>
+  <body>
+    <div id="run-run-app">
+    </div>
+    <script>start()</script>
+  </body>
+</html>
