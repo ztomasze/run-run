@@ -18,14 +18,8 @@
     </style>
     <script>
       // x = 170m, y = 140m
-      const colStreets = ['Waverly', 'Cowper', 'Webster', 'Middlefield'];
+      const colStreets = ['Waverly', 'Cowper', 'Webster', 'Middlefield', 'Guinda'];
       const rowStreets = ['Forest', 'Homer', 'Channing', 'Addison'];
-      const points = [
-        ['0', '1', '2', '3'],
-        ['7', '6', '5', '4'],
-        ['8', '9', 'a', 'b'],
-        ['f', 'e', 'd', 'c'],
-      ];
 
       const segmentsPerRun = 30;
       let waypoints = 0;
@@ -41,7 +35,6 @@
       function display() {
         const app = document.getElementById("run-run-app");
         let html = '';
-        html += '<h1>' + points[atPoint.row][atPoint.col] + '</h1>'
         html += '<h2>' + rowStreets[atPoint.row] + ' &amp; ' + colStreets[atPoint.col] + '</h2>'
         html += '<h3>' + atPoint.rowDown + " right, " + atPoint.colDown + " up</h3>"
         html += '<h3>' + atPoint.segments + " / " + segmentsPerRun + " blocks</h3>";
@@ -53,9 +46,8 @@
       function selectNextPoint() {
         let nextPoint = {...atPoint};
         while (nextPoint.row === atPoint.row && nextPoint.col === atPoint.col) {
-          nextPoint.row = Math.floor(Math.random() * colStreets
-  .length);
-          nextPoint.col = Math.floor(Math.random() * rowStreets.length);
+          nextPoint.row = Math.floor(Math.random() * rowStreets.length);
+          nextPoint.col = Math.floor(Math.random() * colStreets.length);
           console.log(nextPoint);
         }
 
