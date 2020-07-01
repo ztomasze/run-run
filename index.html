@@ -18,14 +18,14 @@
     </style>
     <script>
       // x = 170m, y = 140m
-      const colStreets = ['Waverly', 'Cowper', 'Webster', 'Middlefield', 'Guinda'];
+      const colStreets = ['Bryant', 'Waverly', 'Cowper', 'Webster', 'Middlefield', 'Guinda'];
       const rowStreets = ['Forest', 'Homer', 'Channing', 'Addison'];
-
       const segmentsPerRun = 30;
+
       let waypoints = 0;
       let atPoint = {
         row: 0,
-        col: 0,
+        col: 1,
 
         segments: 0,
         rowDown: 0,
@@ -37,23 +37,24 @@
         let html = '';
         html += '<h2>' + rowStreets[atPoint.row] + ' &amp; ' + colStreets[atPoint.col] + '</h2>'
         html += '<h3>' + atPoint.rowDown + " right, " + atPoint.colDown + " up</h3>"
+        html += '<button onClick="selectNextPoint()">Next Point</button>'
         html += '<h3>' + atPoint.segments + " / " + segmentsPerRun + " blocks</h3>";
         html += '<h3>' + waypoints + " waypoints</h3>";
-        html += '<button onClick="selectNextPoint()">Next Point</button>'
         app.innerHTML = html;
       }
 
       function selectNextPoint() {
         let nextPoint = {...atPoint};
-        while (nextPoint.row === atPoint.row && nextPoint.col === atPoint.col) {
+        let segments = 0;
+        while (segments < 3) {
           nextPoint.row = Math.floor(Math.random() * rowStreets.length);
           nextPoint.col = Math.floor(Math.random() * colStreets.length);
-          console.log(nextPoint);
-        }
 
-        nextPoint.rowDown = nextPoint.row - atPoint.row;
-        nextPoint.colDown = nextPoint.col - atPoint.col;
-        nextPoint.segments += Math.abs(nextPoint.rowDown) + Math.abs(nextPoint.colDown);
+          nextPoint.rowDown = nextPoint.row - atPoint.row;
+          nextPoint.colDown = nextPoint.col - atPoint.col;
+          segments = Math.abs(nextPoint.rowDown) + Math.abs(nextPoint.colDown);
+        }
+        nextPoint.segments += segments;
 
         atPoint = nextPoint;
         waypoints += 1;
